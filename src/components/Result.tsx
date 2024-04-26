@@ -71,7 +71,7 @@ export default function Home() {
                 role: "user",
                 parts: [
                   {
-                    text: "I just heard a bird call. It sounded like a high-pitched whistle, maybe 'fee-bee-o' or 'fee-bee-bee'."
+                    text: `I recorded a bird sound. Can you identify the bird? ${birdSound}`
                   }
                 ]
               },

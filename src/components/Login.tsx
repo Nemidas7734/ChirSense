@@ -1,44 +1,48 @@
 import { useState } from "react";
 import Navbar from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { doSignInWithEmailAndPassword } from '../firebase/auth'
+import { useAuth } from '../contexts/authContext'
+import { Navigate } from "react-router-dom";
 
 
 export default function Login() {
+  const { userLoggedIn } = useAuth()
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSigningIn, setIsSigningIn] = useState(false)
+
+  const onSubmit = async (e : any) => {
+    e.preventDefault()
+    if(!isSigningIn) {
+        setIsSigningIn(true)
+        await doSignInWithEmailAndPassword(email, password)
+        navigate("/home")
+    }
+}
 
   const navigate = useNavigate();
 
-  const logInUser = () => {
-    if(email.length === 0){
-      alert("Email has left Blank!");
-    }
-    else if(password.length === 0){
-      alert("password has left Blank!");
-    }
-    else{
-        axios.post(' http://localhost:5000/login', {
-            email: email,
-            password: password
-        })
-        .then(function (response) {
-            console.log(response);
-            console.log(response.data);
-            navigate("/");
-        })
-        .catch(function (error) {
-            console.log(error, 'error');
-            if (error.response.status === 401) {
-                alert("Invalid credentials");
-            }
-        });
-    }
-  }
+  // const logInUser = () => {
+  //   axios.post(' http://localhost:8000/login', {email,password})
+  //   .then(result => {
+  //       console.log('Response text:', result);
+  //       if(result.data == "Success"){
+  //         navigate("/");
+  //       }
+        
+  //   })
+  //   .catch(error => {
+  //       console.error('There was a problem with the fetch operation:', error);
+  //       // Handle error appropriately
+  //   });
+  // }
 
   return (
     <>
       <Navbar />
+      {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
       <section className="min-h-[680px] min-w-[1140px] relative m-auto box-border ">
         <img
           src="naser-tamimi-wCByk0dxtEk-unsplash.jpg"
@@ -52,6 +56,7 @@ export default function Login() {
             <div className="form-container ">
               <div className="flex justify-center items-center mt-7 p-5 max-w-auto ">
                 <form
+                  onSubmit={onSubmit}
                   className="flex flex-col items-center justify-center  p-6  min-w-80 "
                 >
                   <h1 className="mt-0 text-center mb-1 font-semibold text-black text-xl">
@@ -99,7 +104,7 @@ export default function Login() {
                   <div className="px-0">
                     <button
                       type="submit"
-                      onClick={logInUser}
+                      // onClick={logInUser}
                       className="border rounded py-1 h-10 mt-2 bg-green-600 hover:bg-green-500 text-white w-72"
                     >
                       Login

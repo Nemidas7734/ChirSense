@@ -10,6 +10,7 @@ import {
 import Login from "./components/Login";
 import SignUp from "./components/Signup";
 import { RecoilRoot } from "recoil";
+import ReadMore from "./components/ReadMore";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/result" element={<Result/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp/>} />
+            <Route path="/readmore" element={<ReadMore/>} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Router>

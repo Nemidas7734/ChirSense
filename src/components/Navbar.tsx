@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/authContext'
+import { doSignOut } from '../firebase/auth'
 
 export default function Navbar() {
+  const navigate = useNavigate()
+  const { userLoggedIn } = useAuth()
   return (
     <>
       <div className="flex justify-between items-center">
@@ -25,13 +29,26 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="">
+            <Link to="/readmore">
             <img
               src="reading_5065126.png"
               width={35}
               height={35}
               className="inline"
             />
+            </Link>
           </li>
+          {userLoggedIn ? 
+          <>
+              <button
+                className="bg-green-600 text-white px-3 py-1 rounded-xl hover:bg-green-500 transform duration-300 "
+                onClick={() => { doSignOut().then(() => { navigate('/login') }) }}
+                type="button"
+              >
+                LogOut
+              </button>
+          </>:
+          <>
           <Link to="/login">
             <button
               className="bg-green-600 text-white px-3 py-1 rounded-xl hover:bg-green-500 transform duration-300 "
@@ -41,6 +58,9 @@ export default function Navbar() {
               Login
             </button>
           </Link>
+          </>
+          }
+ 
         </ul>
       </div>
     </>
