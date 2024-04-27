@@ -1,10 +1,27 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/authContext'
+import { useEffect,useState } from 'react';
 import { doSignOut } from '../firebase/auth'
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '../firebase/firebase';
+
 
 export default function Navbar() {
+  const [user,setUser] = useState('')
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const uid = user.uid;
+          setUser(uid);
+          console.log("uid", uid)
+        } else {
+          console.log("user is logged out")
+        }
+      });
+     
+}, [])
+
   const navigate = useNavigate()
-  const { userLoggedIn } = useAuth()
+
   return (
     <>
       <div className="flex justify-between items-center">
@@ -38,7 +55,7 @@ export default function Navbar() {
             />
             </Link>
           </li>
-          {userLoggedIn ? 
+          {user ? 
           <>
               <button
                 className="bg-green-600 text-white px-3 py-1 rounded-xl hover:bg-green-500 transform duration-300 "
@@ -52,7 +69,6 @@ export default function Navbar() {
           <Link to="/login">
             <button
               className="bg-green-600 text-white px-3 py-1 rounded-xl hover:bg-green-500 transform duration-300 "
-              // onClick={openFileExplorer}
               type="button"
             >
               Login

@@ -32,6 +32,7 @@ export default function Home() {
     if (e.target.files && e.target.files[0]) {
       console.log(e.target.files[0]);
       setFile(e.target.files[0]);
+      console.log(file);
     }
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
@@ -44,6 +45,7 @@ export default function Home() {
       .then(response => response.json())
       .then(data => {
         setPrediction(data.prediction);
+        console.log(prediction);
       })
       .catch(error => console.error('Error:', error));
   }
@@ -100,7 +102,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <div className="text-white bg-stone-700 p-2 mt-0 relative text-center">
+      <div className="text-white bg-stone-700 p-2 mt-0 mb-0 relative text-center">
         <a>@Copyright Avian</a>
       </div>
     </>

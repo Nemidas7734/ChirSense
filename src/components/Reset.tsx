@@ -1,33 +1,66 @@
 "use client";
 
-import  { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import  { useState,useEffect } from "react";
+import {  useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { doCreateUserWithEmailAndPassword } from '../firebase/auth'
+import { doResetPasword } from '../firebase/auth'
+import queryString from 'query-string';
 
 
-export default function SignUp() {
-    const [email,setEmail] = useState<string>('');
-    const [password,setPassword] = useState<string>('');
-    const [isRegistering, setIsRegistering] = useState<boolean>(false)
+export default function Reset() {
+    const [verifying, setVerifying] = useState<boolean>(true);
+    const [verified, setVerified] = useState<boolean>(false);
+    const [changing, setChanging] = useState<boolean>(false);
+    const [password, setPassword] = useState<string>('');
+    const [oobCode, setOobCode] = useState<string>('');
 
     const navigate = useNavigate();
    
     
-    const onSubmit = async (e:any) => {
-        e.preventDefault()
-        if(!isRegistering) {
-            setIsRegistering(true)
-            await doCreateUserWithEmailAndPassword(email, password)
+
+    useEffect(() => {
+
+        let stringParams = queryString.parse(location.search);
+
+        if (stringParams)
+        {
+            let oobCode = stringParams.oobCode as string;
+
+            if (oobCode)
+            {
+                verifyPasswordResetLink(oobCode);
+            }
+            else
+            {
+                setVerified(false);
+                setVerifying(false);
+            }
         }
-        navigate("/login")
-    }                                                  
+        else
+        {
+            setVerified(false);
+            setVerifying(false);
+            setChanging(false);
+        }
+        // eslint-disable-next-line
+    }, []);
+
+    const verifyPasswordResetLink = async (_oobCode: string) => {
+        await doResetPasword(_oobCode)
+            setOobCode(_oobCode);
+            setVerified(true);
+            setVerifying(false);
+            navigate("/login")
+    }
+    
+    
+                                               
 
 
     return (
         <>
             <Navbar />
-            <section className="min-h-[680px] min-w-[1140px] relative m-auto box-border ">
+            {verifying ? <h1>loading</h1>:<>{verified ? <section className="min-h-[680px] min-w-[1140px] relative m-auto box-border ">
                 <img
                     src="naser-tamimi-wCByk0dxtEk-unsplash.jpg"
                     className="block box-border overflow-hidden align-middle mt-[60px] ml-auto h-[620px] w-[570px] object-cover bg-center bg-no-repeat bg-cover"
@@ -39,30 +72,12 @@ export default function SignUp() {
                         </h1>
                         <div className="form-container flex justify-center mt-6 p-5 max-w-auto">
                             <form
-                                onSubmit={onSubmit}
+                                
                                 className="flex flex-col items-center justify-center p-6  min-w-8"
                             >
                                 <h1 className="mt-0 text-center mb-3 font-semibold text-black text-xl">
-                                    Signup
+                                    Please enter a strong password.
                                 </h1>
-                                <h1 className="text-sm mb-4 ">
-                                    Already have an account? <Link to='/login' className="hover:underline underline-offset-4">Login</Link>
-                                </h1>
-                                <div className=" mb-4">
-                                    <h1 className="text-slate-500 text-xs py-1 mr-64">Email</h1>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        id="email"
-                                        value={email} 
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        autoFocus
-                                        className="border border-slate-500 h-10 w-72 rounded"
-                                        
-                                        placeholder=" Enter Your Email"
-                                        required
-                                    />
-                                </div>
                                 <div className="mb-4">
                                     <h1 className="text-slate-500 text-xs py-1 mr-60">Password</h1>
                                     <input
@@ -77,20 +92,25 @@ export default function SignUp() {
                                         required
                                     />
                                 </div>
+                         
                                 <button
                                     type="button"
-                                    disabled = {isRegistering}
+                                    disabled = {changing}
                                     color="success"
-                                    onClick={onSubmit}
+                                    onClick={() => verifyPasswordResetLink(oobCode)}
                                     className="border rounded py-1 h-10 mt-2 bg-green-600 hover:bg-green-500 text-white w-72"
                                 >
-                                    Signup
+                                    Reset Password
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>:<h1>Invalid Link</h1>}</>
+            
+            }
+            
+            
         </>
     );
 }

@@ -4,7 +4,7 @@ import {
   } from 'recoil';
 import { predictedState } from "../lib/util";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   GoogleGenerativeAI,
   HarmCategory,
@@ -120,9 +120,6 @@ export default function Home() {
                     </>
                 )}
                 </div>
-          {/* <div className="text-white bg-stone-700 p-2 mt-0 relative text-center">
-            <a>@Copyright Avian</a>
-          </div> */}
         </>
       );
     }

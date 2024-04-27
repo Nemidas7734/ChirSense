@@ -1,24 +1,31 @@
 "use client";
 
 import  { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { doCreateUserWithEmailAndPassword } from '../firebase/auth'
+import { doPasswordReset } from '../firebase/auth'
 
 
-export default function SignUp() {
+export default function Forgot() {
+    const [sending,setSending] = useState<boolean>(false);
+    const [sent,setSent] = useState<boolean>(false);
     const [email,setEmail] = useState<string>('');
-    const [password,setPassword] = useState<string>('');
-    const [isRegistering, setIsRegistering] = useState<boolean>(false)
+    const [error, setError] = useState<string>('');
 
     const navigate = useNavigate();
-   
+
     
     const onSubmit = async (e:any) => {
+        if(error !== '') setError('');
+
+
         e.preventDefault()
-        if(!isRegistering) {
-            setIsRegistering(true)
-            await doCreateUserWithEmailAndPassword(email, password)
+        // if(password!==confirm) setError('Please make sure your password match.')
+        if(!sending) {
+            setSending(true);
+            await doPasswordReset(email)
+            setSent(true);
+            setSending(false);
         }
         navigate("/login")
     }                                                  
@@ -27,7 +34,10 @@ export default function SignUp() {
     return (
         <>
             <Navbar />
-            <section className="min-h-[680px] min-w-[1140px] relative m-auto box-border ">
+            {sent ? 
+                <p>Email has been sent to your email account</p>
+                :
+                <section className="min-h-[680px] min-w-[1140px] relative m-auto box-border ">
                 <img
                     src="naser-tamimi-wCByk0dxtEk-unsplash.jpg"
                     className="block box-border overflow-hidden align-middle mt-[60px] ml-auto h-[620px] w-[570px] object-cover bg-center bg-no-repeat bg-cover"
@@ -43,10 +53,7 @@ export default function SignUp() {
                                 className="flex flex-col items-center justify-center p-6  min-w-8"
                             >
                                 <h1 className="mt-0 text-center mb-3 font-semibold text-black text-xl">
-                                    Signup
-                                </h1>
-                                <h1 className="text-sm mb-4 ">
-                                    Already have an account? <Link to='/login' className="hover:underline underline-offset-4">Login</Link>
+                                    Please enter your email.
                                 </h1>
                                 <div className=" mb-4">
                                     <h1 className="text-slate-500 text-xs py-1 mr-64">Email</h1>
@@ -63,34 +70,22 @@ export default function SignUp() {
                                         required
                                     />
                                 </div>
-                                <div className="mb-4">
-                                    <h1 className="text-slate-500 text-xs py-1 mr-60">Password</h1>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        autoComplete="new-password"
-                                        value={password} 
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="border border-slate-500 px-0 h-10 w-72 rounded"
-                                        placeholder=" Enter Your Password"
-                                        required
-                                    />
-                                </div>
                                 <button
                                     type="button"
-                                    disabled = {isRegistering}
+                                    disabled = {sending}
                                     color="success"
                                     onClick={onSubmit}
                                     className="border rounded py-1 h-10 mt-2 bg-green-600 hover:bg-green-500 text-white w-72"
                                 >
-                                    Signup
+                                    Send Reset Link
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>}
+            
+
         </>
     );
 }

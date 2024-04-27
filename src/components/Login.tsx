@@ -24,20 +24,6 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  // const logInUser = () => {
-  //   axios.post(' http://localhost:8000/login', {email,password})
-  //   .then(result => {
-  //       console.log('Response text:', result);
-  //       if(result.data == "Success"){
-  //         navigate("/");
-  //       }
-        
-  //   })
-  //   .catch(error => {
-  //       console.error('There was a problem with the fetch operation:', error);
-  //       // Handle error appropriately
-  //   });
-  // }
 
   return (
     <>
@@ -74,9 +60,6 @@ export default function Login() {
                       value={email}
                       className="border border-slate-500 h-10 w-72 rounded"
                       onChange={(e)=>setEmail(e.target.value)}
-                      // id="exampleInputEmail1"
-                      // placeholder=" Enter Your Email"
-                      // required
                     />
                   </div>
                   <div className="mb-4">
@@ -87,24 +70,21 @@ export default function Login() {
                       value={password}
                       className="border border-slate-500 px-0 h-10 w-72 rounded"
                       onChange={(e) => setPassword(e.target.value)}
-                      // id="exampleInputPassword1"
-                      // placeholder=" Enter Your Password"
-                      // required
                     />
                   </div>
                   <div className="mb-4">
+                    <Link to='/forgot'>
                     <button
                       type="button"
                       className="hover:text-black hover:underline underline-offset-4 font-normal hover:border-black"
-                      // onClick={() => { navigate("/forgot-password"); }}
                     >
                       Forgot Password?
                     </button>
+                    </Link>
                   </div>
                   <div className="px-0">
                     <button
                       type="submit"
-                      // onClick={logInUser}
                       className="border rounded py-1 h-10 mt-2 bg-green-600 hover:bg-green-500 text-white w-72"
                     >
                       Login
