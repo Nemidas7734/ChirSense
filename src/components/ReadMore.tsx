@@ -12,7 +12,7 @@ export default function ReadMore() {
                         src="bird.jpg"
                         width={1600}
                         height={480}
-                        className="inline object-cover mb-4"
+                        className="inline object-cover mb-4 rounded-md"
                     />
                     <div className="container mx-auto bg-gray-100 px-4 py-8">
                         <h1 className="text-3xl font-bold text-center text-blue-500 mb-4">Welcome to Avian - Learn More About Birds and Bird Sounds</h1>

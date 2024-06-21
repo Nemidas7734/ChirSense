@@ -60,7 +60,7 @@ export default function Home() {
       <section className="min-h-[680px] min-w-[1140px] relative m-auto box-border ">
         <img
           src="pexels-photo-56733.jpeg"
-          className="block box-border overflow-hidden align-middle mt-[60px] ml-auto h-[620px] w-[570px] object-cover bg-center bg-no-repeat bg-cover"
+          className="block box-border overflow-hidden align-middle mt-[60px] ml-auto h-[620px] w-[570px] object-cover bg-center bg-no-repeat bg-cover rounded-md"
         />
         <div className="relative box-border isolate flex min-h-[620px] h-auto mt-[-620px] mr-auto ml-0 mb-[60px] w-[570px]">
           <div className="p-7 flex flex-col flex-1 max-w-full box-border isolate justify-center">
@@ -102,7 +102,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <div className="text-white bg-stone-700 p-2 mt-0 mb-0 relative text-center">
+      <div className="text-white bg-stone-700 p-2 mt-0 mb-0 relative text-center rounded-md">
         <a>@Copyright Avian</a>
       </div>
     </>

@@ -32,7 +32,7 @@ export default function Login() {
       <section className="min-h-[680px] min-w-[1140px] relative m-auto box-border ">
         <img
           src="naser-tamimi-wCByk0dxtEk-unsplash.jpg"
-          className="block box-border overflow-hidden align-middle mt-[60px] ml-auto h-[620px] w-[570px] object-cover bg-center bg-no-repeat bg-cover"
+          className="block box-border overflow-hidden align-middle mt-[60px] ml-auto h-[620px] w-[570px] object-cover bg-center bg-no-repeat bg-cover rounded-md"
         />
         <div className="relative box-border isolate flex min-h-[620px] h-auto mt-[-620px] mr-auto ml-0 mb-[60px] w-[570px]">
           <div className="p-7 flex flex-col flex-1 max-w-full box-border isolate justify-center">

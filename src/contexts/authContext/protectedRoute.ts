@@ -3,7 +3,7 @@ import {  useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 
-// Define an interface for children type safety
+
 interface ProtectedRouteProps {
   children: React.ReactNode; 
 }

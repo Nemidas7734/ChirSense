@@ -14,7 +14,7 @@ import { marked } from "marked";
 
 
 const MODEL_NAME = "gemini-1.0-pro";
-const API_KEY = "AIzaSyCAu7zkum0hhG8dAq2Y25UHJHzSJJ1XMG4";
+const API_KEY = import.meta.env.VITE_KEY;
 
 export default function Home() {
     const predictedClass = useRecoilValue(predictedState);
